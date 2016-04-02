@@ -7,23 +7,37 @@ export default {
   create(game) {
     this.game = game
     game.stage.backgroundColor = '#41a744'
+    game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    this.game.scale.setResizeCallback(scaledDraw.resize, this);
-    scaledDraw.init.call(this);
+    this.game.scale.setResizeCallback(scaledDraw.resize, this)
+    scaledDraw.init.call(this)
 
-    game.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate');
+    game.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate')
 
     game.enemies = new EnemyManager(game)
     game.player = new Player(game, 2, 14)
 
-    game.bottomgate = game.add.tileSprite(0, 60, 64, 4, 'gate');
+    game.bottomgate = game.add.tileSprite(0, 60, 64, 4, 'gate')
   },
 
   update(game) {
     const isDown = game.input.keyboard.isDown
     this.input.update(game)
+    game.enemies.update()
     game.bottomgate.tilePosition.x -= 0.5
     game.topgate.tilePosition.x -= 0.5
+
+    game.physics.arcade.overlap(game.player.sprite, game.enemies.group, (player, dog) => {
+      dog.catch()
+    })
+
+    if (game.player.lasso.shooting) {
+      game.physics.arcade.overlap(game.player.lasso, game.enemies.group, (player, dog) => {
+        dog.pickup()
+        game.enemies.spawn(dog.row)
+        player.resetLasso()
+      })
+    }
 
     if (this.isDown('UP') || this.isDown('W')) {
       game.player.move(true)
@@ -33,6 +47,7 @@ export default {
     if (this.isDown('SPACEBAR') || this.isDown('Z')) {
       game.player.shoot()
     }
+    game.player.update()
   },
 
   isDown(key) {
@@ -40,6 +55,9 @@ export default {
   },
 
   render(game) {
-    scaledDraw.render.call(this);
+    // game.debug.body(game.player.sprite)
+    // game.debug.body(game.player.lasso)
+    // game.enemies.dogs.forEach(dog => game.debug.body(dog.sprite))
+    scaledDraw.render.call(this)
   }
 }
