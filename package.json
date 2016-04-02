@@ -1,0 +1,11 @@
+{
+  "name": "stampede",
+  "version": "1.0.0",
+  "description": "A 64x64 resolution game made for LOWREZJAM 2016",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Whiffing",
+  "license": "ISC"
+}
