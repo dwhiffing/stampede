@@ -3,7 +3,7 @@ let minY = 9
 let maxY = 54
 let speed = 0.4
 let ropeWidth = 36
-let lassoSpeed = 1.6
+let lassoSpeed = 1
 
 export default class Player {
   constructor(game, x, y) {
@@ -45,13 +45,13 @@ export default class Player {
   update() {
     if (lasso.shooting) {
       if (rope.width < ropeWidth) {
-        this.setLasso(1.5)
+        this.setLasso(lassoSpeed)
       } else {
         this.retractLasso()
       }
     } else {
       if (rope.width > 0) {
-        this.setLasso(-1.5)
+        this.setLasso(-lassoSpeed)
       } else {
         this.resetLasso()
       }
@@ -67,11 +67,6 @@ export default class Player {
     }
     lasso.y = Math.round(sprite.y - 3)
     rope.y = Math.round(sprite.y)
-  }
-  setLasso(speed=0) {
-    rope.width += speed
-    lasso.x += speed
-    lasso.y = (sprite.y - 3) + rope.width / 4.3
   }
   buck() {
     if (sprite.invulnerable) return
@@ -95,10 +90,15 @@ export default class Player {
     lasso.spin.pause()
     this.lasso.shooting = true
   }
+  setLasso(speed=0) {
+    rope.width += speed
+    lasso.x += speed
+    lasso.y = (sprite.y - 3) + rope.width / 4.3
+  }
   resetLasso() {
     rope.width = 0
     lasso.shooting = false
-    canShoot = true
+    setTimeout(() => canShoot = true, 100)
     lasso.spin.resume()
     this.setLasso()
   }

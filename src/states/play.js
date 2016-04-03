@@ -26,16 +26,18 @@ export default {
     game.input.update()
     game.player.update()
 
-    game.physics.arcade.overlap(game.player.lasso, game.enemies.group, this._lassoCollide.bind(this))
+    if (this.game.player.lasso.shooting) {
+      game.physics.arcade.overlap(game.player.lasso, game.enemies.group, this._lassoCollide.bind(this))
+    }
     game.physics.arcade.overlap(game.player.sprite, game.enemies.group, this._dogCollide.bind(this))
   },
 
   _lassoCollide(lasso, dog) {
     if (this.game.player.lasso.shooting && dog.type !== 4) {
       dog.capture()
+      this.game.player.retractLasso()
       this.game.ui.setScore(dog.score)
       this.game.enemies.trySpawn(dog.row)
-      this.game.player.retractLasso()
     }
   },
 
