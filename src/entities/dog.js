@@ -5,6 +5,7 @@ export default class Dog {
     this.sprite.animations.play('run', 5, true)
     this.setup(x, y, speed)
     game.physics.arcade.enable(this.sprite)
+    this.game = game
     this.sprite.catch = this.catch.bind(this)
     this.sprite.pickup = this.pickup.bind(this)
   }
@@ -19,6 +20,12 @@ export default class Dog {
       this.speed += 0.01
     }
     this.sprite.x -= this.speed
+    if (this.sprite.x < -8) {
+      this.game.loseLife()
+      this.sprite.kill()
+      this.game.enemies.spawn(this.sprite.row)
+      this.sprite.x = 70
+    }
   }
   catch() {
     this.speed = -1

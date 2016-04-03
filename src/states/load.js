@@ -7,6 +7,7 @@ export default {
     this.load.image('lasso', 'images/lasso.png')
     this.load.spritesheet('dog', 'images/dogs.png', 8, 6)
     this.load.spritesheet('player', 'images/player.png', 12, 10)
+    this.load.bitmapFont('font', 'images/font.png', 'images/font.xml')
   },
 
   onLoadComplete() {
