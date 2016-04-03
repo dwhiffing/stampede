@@ -2,16 +2,16 @@ import Dog from './dog'
 
 let rowData = [
   {
-    color: 0x2C1400,
-    speed: 0.2,
+    color: 0x772D11,
+    speed: 0.1,
     size: [2,4]
   }, {
-    color: 0x7F6932,
-    speed: 0.3,
+    color: 0xD0906D,
+    speed: 0.2,
     size: [2,3]
   }, {
-    color: 0xA9945F,
-    speed: 0.4,
+    color: 0xFFC6BE,
+    speed: 0.3,
     size: [1,3]
   }, {
     color: 0x000000,
@@ -46,19 +46,20 @@ export default class EnemyManager {
     this.spawn(4)
     this.spawn(5)
   }
-  spawnDog(row, x, y, speed, color) {
+  spawnDog(row, x, y, speed, color, type) {
     let dog = this.dogs.filter(d => !d.sprite.alive)[0]
     dog.setup(x, y, speed)
     dog.sprite.reset(x, y)
     dog.sprite.row = row
     dog.sprite.tint = color
+    dog.sprite.type = type
   }
   getRow(row) {
     return this.dogs.filter(d => d.sprite.row === row && d.sprite.alive)
   }
   spawn(row) {
     if (this.getRow(row).length > 0) return
-    
+
     setTimeout(() => {
       let type = this.rows[row]
       let data = rowData[type]
@@ -66,7 +67,7 @@ export default class EnemyManager {
       let size = this.game.rnd.integerInRange(data.size[0],data.size[1])
       this.type = type
       for (var i = 0; i < size; i++) {
-        this.spawnDog(row, 64 + 10 * i, y, data.speed, data.color)
+        this.spawnDog(row, 64 + 10 * i, y, data.speed, data.color, type)
       }
 
       this.rows[row]++

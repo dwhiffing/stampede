@@ -15,6 +15,14 @@ export default class Player {
     this.speed = 0.4
     this.minY = 9
     this.maxY = 49
+    this.game = game
+
+    this.sprite.flicker = this.game.time.create(false)
+    this.sprite.flicker.loop(250, () => {
+      this.sprite.alpha = (this.sprite.alpha === 0.6) ? 0.9 : 0.6
+    })
+    this.sprite.flicker.start()
+    this.sprite.flicker.pause()
 
     this.lasso.resetLasso = this.resetLasso.bind(this)
   }
@@ -49,8 +57,25 @@ export default class Player {
       this.canShoot = true
     }, 150)
   }
+  buck() {
+    if (!this.sprite.invulnerable) {
+      this.flickerSprite()
+    }
+  }
+  flickerSprite() {
+    this.sprite.flicker.resume()
+    this.sprite.invulnerable = true
+    this.lasso.alpha = 0
+
+    this.game.time.events.add(3000, () => {
+      this.sprite.invulnerable = false
+      this.sprite.flicker.pause()
+      this.sprite.alpha = 1
+      this.lasso.alpha = 1
+    }, this.sprite)
+  }
   shoot() {
-    if (this.canShoot) {
+    if (this.canShoot && !this.sprite.invulnerable) {
       this.canShoot = false
       this.lasso.shooting = true
     }

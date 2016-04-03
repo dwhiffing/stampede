@@ -48,7 +48,11 @@ export default {
     game.topgate.tilePosition.x -= 0.5
 
     game.physics.arcade.overlap(game.player.sprite, game.enemies.group, (player, dog) => {
-      game.enemies.catch(dog.row)
+      if (dog.type >= 3) {
+        game.player.buck()
+      } else if (!game.player.sprite.invulnerable) {
+        game.enemies.catch(dog.row)
+      }
     })
 
     if (game.player.lasso.shooting) {
