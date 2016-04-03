@@ -14,6 +14,7 @@ export default {
     game.lives = 5
     game.score = 0
     game.targetScore = 0
+    game.nextLifeScore = 1000
 
     game.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate')
 
@@ -77,6 +78,11 @@ export default {
 
     if (game.score < game.targetScore) {
       game.score += 0.3
+      if (game.score >= game.nextLifeScore) {
+        game.lives += 1
+        game.nextLifeScore += 1000
+        game.lifeText.text = game.lives
+      }
       game.scoreText.text = Math.floor(game.score).toString()
     }
   },
