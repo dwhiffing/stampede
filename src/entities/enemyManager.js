@@ -54,6 +54,9 @@ export default class EnemyManager {
     dog.sprite.tint = color
     dog.sprite.type = type
   }
+  resetRow(row) {
+    this.getRow(row).forEach(d => d.caughtUp())
+  }
   getRow(row) {
     return this.dogs.filter(d => d.sprite.row === row && d.sprite.alive)
   }

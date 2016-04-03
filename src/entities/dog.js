@@ -16,10 +16,10 @@ export default class Dog {
     this.sprite.y = y
   }
   update() {
-    if (this.speed < this.baseSpeed) {
-      this.speed += 0.01
-    }
     this.sprite.x -= this.speed
+    if (this.speed < 0 && this.sprite.x > 60) {
+      this.game.enemies.resetRow(this.sprite.row)
+    }
     if (this.sprite.x < -30 && this.sprite.alive) {
       this.game.loseLife()
       this.sprite.kill()
@@ -27,8 +27,11 @@ export default class Dog {
       this.sprite.x = 70
     }
   }
+  caughtUp() {
+    this.speed = this.baseSpeed
+  }
   catch() {
-    this.speed = -1
+    this.speed = -this.baseSpeed * 2
   }
   pickup() {
     if (this.game.player.lasso.shooting) {
