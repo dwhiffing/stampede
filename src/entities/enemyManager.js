@@ -23,11 +23,7 @@ export default class EnemyManager {
       dog.kill()
     }
   }
-  update() {
-    this.dogs.forEach((dog) => {
-      dog.update()
-    })
-  }
+  update() {}
   spawn(row) {
     setTimeout(() => {
       let type = this.rows[row]

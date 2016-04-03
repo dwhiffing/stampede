@@ -1,5 +1,6 @@
 export default class UserInterface {
   constructor(game) {
+    this.speed = 1
     this.lives = 5
     this.score = 0
     this.targetScore = 0
@@ -17,13 +18,14 @@ export default class UserInterface {
     }
   }
   update() {
-    this.bottomgate.tilePosition.x -= 0.63
-    this.topgate.tilePosition.x -= 0.63
+    this.bottomgate.tilePosition.x -= 0.5 * this.speed
+    this.topgate.tilePosition.x -= 0.5 * this.speed
 
     if (this.score < this.targetScore) {
       this.score += 0.3
       if (this.score >= this.nextLifeScore) {
         this.lives += 1
+        this.speed += 0.1
         this.nextLifeScore += 1000
         this.lifeText.text = this.lives
       }

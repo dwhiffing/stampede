@@ -2,7 +2,8 @@ let canShoot, lassoOffset, lassoDirection, sprite, lasso, rope
 let minY = 9
 let maxY = 54
 let speed = 0.4
-let lassoSpeed = 1.5
+let ropeWidth = 36
+let lassoSpeed = 1.6
 
 export default class Player {
   constructor(game, x, y) {
@@ -20,7 +21,7 @@ export default class Player {
     lasso.spin.loop(80, this.spinLasso.bind(this))
     lasso.spin.start()
 
-    rope = game.add.tileSprite(x+11, y, 0, 5.5, 'rope')
+    rope = game.add.tileSprite(x+10, y, 0, 5.5, 'rope')
     this.rope = rope
     rope.width = 0
 
@@ -37,15 +38,16 @@ export default class Player {
     sprite.flicker.loop(150, this.flicker.bind(this))
     sprite.flicker.start()
     sprite.flicker.pause()
+    sprite.invulnerable = false
 
     sprite.animations.play('run')
   }
   update() {
     if (lasso.shooting) {
-      if (rope.width < 36) {
+      if (rope.width < ropeWidth) {
         this.setLasso(1.5)
       } else {
-        this.resetLasso()
+        this.retractLasso()
       }
     } else {
       if (rope.width > 0) {
@@ -63,30 +65,20 @@ export default class Player {
     } else if (sprite.y < maxY) {
       sprite.y += speed
     }
-    lasso.y = sprite.y - 3
-    rope.y = sprite.y
+    lasso.y = Math.round(sprite.y - 3)
+    rope.y = Math.round(sprite.y)
   }
   setLasso(speed=0) {
     rope.width += speed
     lasso.x += speed
     lasso.y = (sprite.y - 3) + rope.width / 4.3
   }
-  resetLasso() {
-    rope.width = 0
-    lasso.alpha = 1
-    lasso.shooting = false
-    canShoot = true
-    lasso.spin.resume()
-    this.setLasso()
-  }
-  retractLasso() {
-    lasso.shooting = false
-  }
   buck() {
-    if (!sprite.invulnerable) return
+    if (sprite.invulnerable) return
     sprite.flicker.resume()
     sprite.invulnerable = true
     this.resetLasso()
+    lasso.alpha = 0
     sprite.animations.play('hit')
 
     this.game.time.events.add(1500, () => {
@@ -102,6 +94,17 @@ export default class Player {
     canShoot = false
     lasso.spin.pause()
     this.lasso.shooting = true
+  }
+  resetLasso() {
+    rope.width = 0
+    lasso.shooting = false
+    canShoot = true
+    lasso.spin.resume()
+    this.setLasso()
+  }
+  retractLasso() {
+    lasso.shooting = false
+    this.setLasso()
   }
   flicker() {
     sprite.alpha = (sprite.alpha === 0.6) ? 0.9 : 0.6

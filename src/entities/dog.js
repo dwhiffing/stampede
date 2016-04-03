@@ -8,9 +8,9 @@ export default class Dog extends Phaser.Sprite {
     this.body.height = 4
     this.body.offset.setTo(0, 2)
 
-    this.animations.add('0', [0, 1], 8, true)
+    this.animations.add('0', [0, 1], 9, true)
     this.animations.add('1', [0, 1], 6, true)
-    this.animations.add('2', [0, 1], 4, true)
+    this.animations.add('2', [0, 1], 3, true)
     this.animations.add('3', [2])
     this.animations.add('4', [3])
   }
@@ -28,14 +28,14 @@ export default class Dog extends Phaser.Sprite {
   }
   update() {
     if (!this.alive) return
-
-    this.x -= this.speed
-
     if (this.speed > 0) {
       this.checkIfStrayed()
     } else {
       this.checkIfCaughtUp()
     }
+
+    this.x -= this.speed * this.game.ui.speed
+
   }
   checkIfStrayed() {
     if (this.x < -30) {
@@ -45,15 +45,15 @@ export default class Dog extends Phaser.Sprite {
       this.stray()
     }
   }
-  stray() {
-    this.kill()
-    this.game.enemies.trySpawn(this.row)
-    this.x = 70
-  }
   checkIfCaughtUp() {
     if (this.x > 70) {
       this.game.enemies.walk(this.row)
     }
+  }
+  stray() {
+    this.kill()
+    this.game.enemies.trySpawn(this.row)
+    this.x = 70
   }
   walk() {
     this.speed = this.baseSpeed
