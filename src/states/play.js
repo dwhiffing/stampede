@@ -13,6 +13,7 @@ export default {
 
     game.lives = 5
     game.score = 0
+    game.targetScore = 0
 
     game.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate')
 
@@ -22,7 +23,7 @@ export default {
     game.bottomgate = game.add.tileSprite(0, 60, 64, 4, 'gate')
 
     game.lifeText = game.add.bitmapText(2, 1, 'font', game.lives.toString(), 5)
-    game.scoreText = game.add.bitmapText(25, 1, 'font', game.score.toString(), 5)
+    game.scoreText = game.add.bitmapText(25, 1, 'font', Math.floor(game.score).toString(), 5)
     game.gameover = () => {
       game.state.start('menu', true, false)
     }
@@ -35,8 +36,7 @@ export default {
       }
     }
     game.setScore = (score) => {
-      game.score += score
-      game.scoreText.text = game.score
+      game.targetScore += score
     }
   },
 
@@ -74,6 +74,11 @@ export default {
       game.player.shoot()
     }
     game.player.update()
+
+    if (game.score < game.targetScore) {
+      game.score += 0.3
+      game.scoreText.text = Math.floor(game.score).toString()
+    }
   },
 
   isDown(key) {
