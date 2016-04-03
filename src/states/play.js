@@ -32,7 +32,8 @@ export default {
 
   _lassoCollide(lasso, dog) {
     if (this.game.player.lasso.shooting && dog.type !== 4) {
-      dog.pickup()
+      dog.capture()
+      this.game.ui.setScore(dog.score)
       this.game.enemies.trySpawn(dog.row)
       this.game.player.resetLasso()
     }
@@ -42,7 +43,7 @@ export default {
     if (dog.type >= 3) {
       this.game.player.buck()
     } else if (!this.game.player.sprite.invulnerable) {
-      this.game.enemies.catch(dog.row)
+      this.game.enemies.run(dog.row)
     }
   },
 

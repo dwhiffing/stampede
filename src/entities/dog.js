@@ -1,61 +1,68 @@
 import gameData from '../data'
 
-export default class Dog {
+export default class Dog extends Phaser.Sprite {
   constructor(game, x, y, speed) {
-    this.game = game
+    super(game, x, y, "dog")
+    game.physics.arcade.enable(this)
 
-    this.sprite = game.add.sprite(x, y, 'dog')
-    game.physics.arcade.enable(this.sprite)
+    this.body.height = 4
+    this.body.offset.setTo(0, 2)
 
-    this.sprite.body.height = 4
-    this.sprite.body.offset.setTo(0, 2)
-    this.sprite.catch = this.catch.bind(this)
-    this.sprite.pickup = this.pickup.bind(this)
-
-    this.sprite.animations.add('0', [0, 1], 8, true)
-    this.sprite.animations.add('1', [0, 1], 6, true)
-    this.sprite.animations.add('2', [0, 1], 4, true)
-    this.sprite.animations.add('3', [2])
-    this.sprite.animations.add('4', [3])
+    this.animations.add('0', [0, 1], 8, true)
+    this.animations.add('1', [0, 1], 6, true)
+    this.animations.add('2', [0, 1], 4, true)
+    this.animations.add('3', [2])
+    this.animations.add('4', [3])
   }
-  setup(x, y, type, row) {
+  reset(x, y, type, row) {
+    super.reset(x, y)
+    this.row = row
+    this.type = type
+    this.animations.play(type.toString())
+
     let data = gameData.dog[type]
-    this.sprite.reset(x, y)
     this.speed = data.speed
     this.baseSpeed = data.speed
-    this.sprite.row = row
-    this.sprite.type = type
-    this.sprite.tint = data.color
-    this.sprite.score = data.score
-    this.sprite.animations.play(type.toString())
+    this.tint = data.color
+    this.score = data.score
   }
   update() {
-    if (this.sprite.alive) {
-      this.sprite.x -= this.speed
-      if (this.speed < 0 && this.sprite.x > 70) {
-        this.game.enemies.resetRow(this.sprite.row)
-      }
-      if (this.sprite.x < -30) {
-        if (this.sprite.type !== 4) {
-          this.game.ui.loseLife()
-        }
-        this.sprite.kill()
-        this.game.enemies.trySpawn(this.sprite.row)
-        this.sprite.x = 70
-      }
+    if (!this.alive) return
+
+    this.x -= this.speed
+
+    if (this.speed > 0) {
+      this.checkIfStrayed()
+    } else {
+      this.checkIfCaughtUp()
     }
   }
-  caughtUp() {
+  checkIfStrayed() {
+    if (this.x < -30) {
+      if (this.type !== 4) {
+        this.game.ui.loseLife()
+      }
+      this.stray()
+    }
+  }
+  stray() {
+    this.kill()
+    this.game.enemies.trySpawn(this.row)
+    this.x = 70
+  }
+  checkIfCaughtUp() {
+    if (this.x > 70) {
+      this.game.enemies.walk(this.row)
+    }
+  }
+  walk() {
     this.speed = this.baseSpeed
   }
-  catch() {
+  run() {
     this.speed = -this.baseSpeed
   }
-  pickup() {
-    if (this.game.player.lasso.shooting) {
-      this.sprite.reset(-10, this.sprite.y)
-      this.game.ui.setScore(this.sprite.score)
-      this.sprite.kill()
-    }
+  capture() {
+    this.x = -10
+    this.kill()
   }
 }
