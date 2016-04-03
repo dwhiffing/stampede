@@ -20,7 +20,7 @@ const scaledDraw = {
     }
     pixel.canvas = Phaser.Canvas.create(this.game.width * pixel.scale, this.game.height * pixel.scale)
     pixel.context = pixel.canvas.getContext('2d')
-    Phaser.Canvas.addToDOM(pixel.canvas)
+    Phaser.Canvas.addToDOM(pixel.canvas, "app")
     Phaser.Canvas.setSmoothingEnabled(pixel.context, false)
     pixel.width = pixel.canvas.width
     pixel.height = pixel.canvas.height

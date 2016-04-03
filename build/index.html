@@ -5,16 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <script src="./phaser.min.js"></script>
-    <script src="./bundle.js"></script>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <style>
+      #wrapper {
+        margin: 20px auto;
+        max-width: 512px;
+        max-height: 512px;
+        width: 90vw;
+      }
       canvas {
-        height: 512px;
-        width: 512px;
+        height: 90vw;
+        width: 90vw;
+        max-width: 512px;
+        max-height: 512px;
+      }
+      #controls {
+        background-color: #999;
+        height: 70px;
+      }
+      #up, #down, #shoot {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        width: 33%;
+        float: left;
+        height: 10px;
+        border-right: 1px solid #333;
+        color: #000;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
     </style>
   </head>
 
   <body style="background: black;margin:0;">
-    <div id="app" />
+    <div id="wrapper">
+      <div id="app"></div>
+      <div id="controls" />
+        <div id="up">
+          ^
+        </div>
+        <div id="shoot">
+          z
+        </div>
+        <div id="down">
+          v
+        </div>
+      </div>
+    </div>
   </body>
+  <script src="./bundle.js"></script>
 </html>
