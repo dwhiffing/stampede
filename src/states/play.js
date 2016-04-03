@@ -1,4 +1,6 @@
 import EnemyManager from '../entities/enemyManager'
+import InputManager from '../entities/input'
+import UserInterface from '../entities/ui'
 import Player from '../entities/player'
 import scaledDraw from '../scaledDraw'
 
@@ -8,93 +10,50 @@ export default {
     game.stage.backgroundColor = '#41a744'
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    this.game.scale.setResizeCallback(scaledDraw.resize, this)
+    game.scale.setResizeCallback(scaledDraw.resize, this)
     scaledDraw.init.call(this)
-
-    game.lives = 5
-    game.score = 0
-    game.targetScore = 0
-    game.nextLifeScore = 1000
-
-    game.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate')
 
     game.enemies = new EnemyManager(game)
     game.player = new Player(game, 2, 14)
-
-    game.bottomgate = game.add.tileSprite(0, 60, 64, 4, 'gate')
-
-    game.lifeText = game.add.bitmapText(2, 1, 'font', game.lives.toString(), 5)
-    game.scoreText = game.add.bitmapText(25, 1, 'font', Math.floor(game.score).toString(), 5)
-    game.gameover = () => {
-      game.state.start('menu', true, false)
-    }
-    game.loseLife = () => {
-      game.lives -= 1
-      if (game.lives < 0) {
-        game.gameover()
-      } else {
-        game.lifeText.text = game.lives
-      }
-    }
-    game.setScore = (score) => {
-      game.targetScore += score
-    }
+    game.inputManager = new InputManager(game)
+    game.ui = new UserInterface(game)
   },
 
   update(game) {
-    const isDown = game.input.keyboard.isDown
-    this.input.update(game)
+    game.inputManager.update()
     game.enemies.update()
-    game.bottomgate.tilePosition.x -= 0.63
-    game.topgate.tilePosition.x -= 0.63
-
-    game.physics.arcade.overlap(game.player.sprite, game.enemies.group, (player, dog) => {
-      if (dog.type >= 3) {
-        game.player.buck()
-      } else if (!game.player.sprite.invulnerable) {
-        game.enemies.catch(dog.row)
-      }
-    })
-
-    if (game.player.lasso.shooting) {
-      game.physics.arcade.overlap(game.player.lasso, game.enemies.group, (player, dog) => {
-        if (dog.type !== 4) {
-          dog.pickup()
-          game.enemies.spawn(dog.row)
-          player.resetLasso()
-        }
-      })
-    }
-
-    if (this.isDown('UP') || this.isDown('W')) {
-      game.player.move(true)
-    } else if (this.isDown('DOWN') || this.isDown('S')) {
-      game.player.move()
-    }
-    if (this.isDown('SPACEBAR') || this.isDown('Z')) {
-      game.player.shoot()
-    }
+    game.ui.update()
+    game.input.update()
     game.player.update()
 
-    if (game.score < game.targetScore) {
-      game.score += 0.3
-      if (game.score >= game.nextLifeScore) {
-        game.lives += 1
-        game.nextLifeScore += 1000
-        game.lifeText.text = game.lives
-      }
-      game.scoreText.text = Math.floor(game.score).toString()
+    game.physics.arcade.overlap(game.player.lasso, game.enemies.group, this._lassoCollide.bind(this))
+    game.physics.arcade.overlap(game.player.sprite, game.enemies.group, this._dogCollide.bind(this))
+  },
+
+  _lassoCollide(lasso, dog) {
+    if (this.game.player.lasso.shooting && dog.type !== 4) {
+      dog.pickup()
+      this.game.enemies.spawn(dog.row)
+      this.game.player.resetLasso()
     }
   },
 
-  isDown(key) {
-    return this.game.input.keyboard.isDown(Phaser.Keyboard[key])
+  _dogCollide(player, dog) {
+    if (dog.type >= 3) {
+      this.game.player.buck()
+    } else if (!this.game.player.sprite.invulnerable) {
+      this.game.enemies.catch(dog.row)
+    }
   },
 
   render(game) {
-    // game.debug.body(game.player.sprite)
-    // game.debug.body(game.player.lasso)
-    // game.enemies.dogs.forEach(dog => game.debug.body(dog.sprite))
+    // this._drawBodies()
     scaledDraw.render.call(this)
-  }
+  },
+
+  _drawBodies() {
+    game.debug.body(game.player.sprite)
+    game.debug.body(game.player.lasso)
+    game.enemies.dogs.forEach(dog => game.debug.body(dog.sprite))
+  },
 }

@@ -31,7 +31,7 @@ export default class Dog {
       }
       if (this.sprite.x < -30) {
         if (this.sprite.type !== 4) {
-          this.game.loseLife()
+          this.game.ui.loseLife()
         }
         this.sprite.kill()
         this.game.enemies.spawn(this.sprite.row)
@@ -48,7 +48,7 @@ export default class Dog {
   pickup() {
     if (this.game.player.lasso.shooting) {
       this.sprite.reset(-10, this.sprite.y)
-      this.game.setScore(this.sprite.score)
+      this.game.ui.setScore(this.sprite.score)
       this.sprite.kill()
     }
   }
