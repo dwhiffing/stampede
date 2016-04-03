@@ -36,7 +36,6 @@ export default {
     }
     game.setScore = (score) => {
       game.score += score
-      console.log(score)
       game.scoreText.text = game.score
     }
   },
@@ -77,9 +76,9 @@ export default {
   },
 
   render(game) {
-    // game.debug.body(game.player.sprite)
-    // game.debug.body(game.player.lasso)
-    // game.enemies.dogs.forEach(dog => game.debug.body(dog.sprite))
+    game.debug.body(game.player.sprite)
+    game.debug.body(game.player.lasso)
+    game.enemies.dogs.forEach(dog => game.debug.body(dog.sprite))
     scaledDraw.render.call(this)
   }
 }

@@ -9,24 +9,33 @@ export default class EnemyManager {
 
     this.dogs = []
     for (var i = 0; i < 30; i++) {
-      let dog = new Dog(this.game, -19, -19)
+      let dog = new Dog(this.game, 64, -10)
       this.group.add(dog.sprite)
       dog.sprite.kill()
       this.dogs.push(dog)
     }
 
     this.spawn(0)
+    this.spawn(0)
+    this.spawn(1)
     this.spawn(1)
     this.spawn(2)
+    this.spawn(2)
+    this.spawn(3)
     this.spawn(3)
     this.spawn(4)
+    this.spawn(4)
+    this.spawn(5)
     this.spawn(5)
   }
   spawn(row) {
+    setTimeout(() => {
+
     let dog = this.dogs.filter(d => !d.sprite.alive)[0]
     dog.setup(70, this.startY + this.rowHeight * row, 0.2)
     dog.sprite.reset(64, this.startY + this.rowHeight * row)
     dog.sprite.row = row
+  }, this.game.rnd.integerInRange(1000, 5000))
   }
   update() {
     this.dogs.forEach((dog) => {
