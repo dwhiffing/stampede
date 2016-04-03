@@ -5,9 +5,15 @@ export default class Player {
     this.sprite.animations.add('run')
     this.sprite.animations.play('run', 7, true)
     game.physics.arcade.enable(this.sprite)
+    this.sprite.body.height = 5
+    this.sprite.body.offset.setTo(0, 5)
 
     this.lasso = game.add.sprite(x+11, y-1, 'lasso')
     game.physics.arcade.enable(this.lasso)
+    this.lasso.body.height = 1
+    this.lasso.body.width = 3
+    this.lasso.body.offset.setTo(1, 1)
+
     this.rope = game.add.tileSprite(x+11, y, 0, 6,'rope')
     this.rope.width = 0
     this.canShoot = true

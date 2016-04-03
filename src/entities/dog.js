@@ -8,6 +8,8 @@ export default class Dog {
     this.game = game
     this.sprite.catch = this.catch.bind(this)
     this.sprite.pickup = this.pickup.bind(this)
+    this.sprite.body.height = 4
+    this.sprite.body.offset.setTo(0, 2)
   }
   setup(x, y, speed) {
     this.speed = speed
@@ -16,15 +18,17 @@ export default class Dog {
     this.sprite.y = y
   }
   update() {
-    this.sprite.x -= this.speed
-    if (this.speed < 0 && this.sprite.x > 60) {
-      this.game.enemies.resetRow(this.sprite.row)
-    }
-    if (this.sprite.x < -30 && this.sprite.alive) {
-      this.game.loseLife()
-      this.sprite.kill()
-      this.game.enemies.spawn(this.sprite.row)
-      this.sprite.x = 70
+    if (this.sprite.alive) {
+      this.sprite.x -= this.speed
+      if (this.speed < 0 && this.sprite.x > 60) {
+        this.game.enemies.resetRow(this.sprite.row)
+      }
+      if (this.sprite.x < -30) {
+        this.game.loseLife()
+        this.sprite.kill()
+        this.game.enemies.spawn(this.sprite.row)
+        this.sprite.x = 70
+      }
     }
   }
   caughtUp() {
@@ -35,8 +39,8 @@ export default class Dog {
   }
   pickup() {
     if (this.game.player.lasso.shooting) {
+      this.sprite.reset(-10, this.sprite.y)
       this.sprite.kill()
-      this.sprite.x = 60
     }
   }
 }
