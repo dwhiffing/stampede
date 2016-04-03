@@ -2,9 +2,6 @@ export default class Player {
   constructor(game, x, y) {
     this.lasso = game.add.sprite(x+11, y-3, 'lasso')
     game.physics.arcade.enable(this.lasso)
-    this.lasso.body.height = 1
-    this.lasso.body.width = 3
-    this.lasso.body.offset.setTo(1, 1)
 
     this.sprite = game.add.sprite(x, y, 'player')
     this.sprite.animations.add('run', [0, 1], 7, true)
@@ -20,7 +17,7 @@ export default class Player {
     this.lasso.shooting = false
     this.speed = 0.4
     this.minY = 9
-    this.maxY = 50
+    this.maxY = 54
     this.game = game
 
     this.sprite.flicker = this.game.time.create(false)

@@ -59,7 +59,6 @@ export default {
       game.physics.arcade.overlap(game.player.lasso, game.enemies.group, (player, dog) => {
         if (dog.type !== 4) {
           dog.pickup()
-          game.setScore(50)
           game.enemies.spawn(dog.row)
           player.resetLasso()
         }

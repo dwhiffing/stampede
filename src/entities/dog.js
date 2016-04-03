@@ -48,6 +48,7 @@ export default class Dog {
   pickup() {
     if (this.game.player.lasso.shooting) {
       this.sprite.reset(-10, this.sprite.y)
+      this.game.setScore(this.sprite.score)
       this.sprite.kill()
     }
   }
