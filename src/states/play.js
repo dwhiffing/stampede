@@ -44,8 +44,8 @@ export default {
     const isDown = game.input.keyboard.isDown
     this.input.update(game)
     game.enemies.update()
-    game.bottomgate.tilePosition.x -= 0.5
-    game.topgate.tilePosition.x -= 0.5
+    game.bottomgate.tilePosition.x -= 0.63
+    game.topgate.tilePosition.x -= 0.63
 
     game.physics.arcade.overlap(game.player.sprite, game.enemies.group, (player, dog) => {
       if (dog.type >= 3) {
@@ -57,10 +57,12 @@ export default {
 
     if (game.player.lasso.shooting) {
       game.physics.arcade.overlap(game.player.lasso, game.enemies.group, (player, dog) => {
-        dog.pickup()
-        game.setScore(50)
-        game.enemies.spawn(dog.row)
-        player.resetLasso()
+        if (dog.type !== 4) {
+          dog.pickup()
+          game.setScore(50)
+          game.enemies.spawn(dog.row)
+          player.resetLasso()
+        }
       })
     }
 

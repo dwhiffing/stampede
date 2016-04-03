@@ -4,18 +4,22 @@ let rowData = [
   {
     color: 0x772D11,
     speed: 0.1,
-    size: [2,4]
+    size: [2,3]
   }, {
     color: 0xD0906D,
-    speed: 0.25,
+    speed: 0.2,
     size: [2,3]
   }, {
     color: 0xFFC6BE,
-    speed: 0.5,
+    speed: 0.4,
     size: [1,3]
   }, {
     color: 0x000000,
-    speed: 1,
+    speed: 0.8,
+    size: [1,1]
+  }, {
+    color: 0xFFFFFF,
+    speed: 0.8,
     size: [1,1]
   },
 ]
@@ -48,7 +52,7 @@ export default class EnemyManager {
   }
   spawnDog(row, x, y, speed, color, type) {
     let dog = this.dogs.filter(d => !d.sprite.alive)[0]
-    dog.setup(x, y, speed)
+    dog.setup(x, y, speed, type)
     dog.sprite.reset(x, y)
     dog.sprite.row = row
     dog.sprite.tint = color

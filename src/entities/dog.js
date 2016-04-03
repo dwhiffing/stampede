@@ -1,30 +1,38 @@
 export default class Dog {
   constructor(game, x, y, speed) {
-    this.sprite = game.add.sprite(x, y, 'dog')
-    this.sprite.animations.add('run')
-    this.sprite.animations.play('run', 5, true)
-    this.setup(x, y, speed)
-    game.physics.arcade.enable(this.sprite)
     this.game = game
-    this.sprite.catch = this.catch.bind(this)
-    this.sprite.pickup = this.pickup.bind(this)
+    this.sprite = game.add.sprite(x, y, 'dog')
+    game.physics.arcade.enable(this.sprite)
+
+    this.sprite.animations.add('0', [0, 1], 8, true)
+    this.sprite.animations.add('1', [0, 1], 6, true)
+    this.sprite.animations.add('2', [0, 1], 4, true)
+    this.sprite.animations.add('3', [2])
+    this.sprite.animations.add('4', [3])
     this.sprite.body.height = 4
     this.sprite.body.offset.setTo(0, 2)
+
+    this.sprite.catch = this.catch.bind(this)
+    this.sprite.pickup = this.pickup.bind(this)
   }
-  setup(x, y, speed) {
+  setup(x, y, speed, type) {
+    console.log("setup")
     this.speed = speed
     this.baseSpeed = speed
     this.sprite.x = x
     this.sprite.y = y
+    this.sprite.animations.play(type.toString())
   }
   update() {
     if (this.sprite.alive) {
       this.sprite.x -= this.speed
-      if (this.speed < 0 && this.sprite.x > 60) {
+      if (this.speed < 0 && this.sprite.x > 70) {
         this.game.enemies.resetRow(this.sprite.row)
       }
       if (this.sprite.x < -30) {
-        this.game.loseLife()
+        if (this.sprite.type !== 4) {
+          this.game.loseLife()
+        }
         this.sprite.kill()
         this.game.enemies.spawn(this.sprite.row)
         this.sprite.x = 70
@@ -35,7 +43,7 @@ export default class Dog {
     this.speed = this.baseSpeed
   }
   catch() {
-    this.speed = -this.baseSpeed * 2
+    this.speed = -this.baseSpeed
   }
   pickup() {
     if (this.game.player.lasso.shooting) {
