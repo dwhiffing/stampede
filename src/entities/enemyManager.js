@@ -7,11 +7,11 @@ let rowData = [
     size: [2,4]
   }, {
     color: 0xD0906D,
-    speed: 0.2,
+    speed: 0.25,
     size: [2,3]
   }, {
     color: 0xFFC6BE,
-    speed: 0.3,
+    speed: 0.5,
     size: [1,3]
   }, {
     color: 0x000000,
@@ -75,7 +75,7 @@ export default class EnemyManager {
         this.rows[row] = 0
       }
 
-    }, this.game.rnd.integerInRange(500, 3000))
+    }, this.game.rnd.integerInRange(0, 4000))
   }
   catch(row) {
     this.getRow(row).forEach(d => d.catch())

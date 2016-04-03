@@ -20,7 +20,7 @@ export default class Dog {
       this.speed += 0.01
     }
     this.sprite.x -= this.speed
-    if (this.sprite.x < -8 && this.sprite.alive) {
+    if (this.sprite.x < -30 && this.sprite.alive) {
       this.game.loseLife()
       this.sprite.kill()
       this.game.enemies.spawn(this.sprite.row)

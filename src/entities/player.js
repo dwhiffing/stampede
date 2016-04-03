@@ -67,7 +67,7 @@ export default class Player {
     this.sprite.invulnerable = true
     this.lasso.alpha = 0
 
-    this.game.time.events.add(3000, () => {
+    this.game.time.events.add(1500, () => {
       this.sprite.invulnerable = false
       this.sprite.flicker.pause()
       this.sprite.alpha = 1
