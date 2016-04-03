@@ -35,7 +35,7 @@ export default {
       dog.capture()
       this.game.ui.setScore(dog.score)
       this.game.enemies.trySpawn(dog.row)
-      this.game.player.resetLasso()
+      this.game.player.retractLasso()
     }
   },
 
