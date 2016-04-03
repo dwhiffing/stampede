@@ -33,7 +33,7 @@ export default {
   _lassoCollide(lasso, dog) {
     if (this.game.player.lasso.shooting && dog.type !== 4) {
       dog.pickup()
-      this.game.enemies.spawn(dog.row)
+      this.game.enemies.trySpawn(dog.row)
       this.game.player.resetLasso()
     }
   },
