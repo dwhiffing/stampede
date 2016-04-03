@@ -48,7 +48,7 @@ export default {
     game.topgate.tilePosition.x -= 0.5
 
     game.physics.arcade.overlap(game.player.sprite, game.enemies.group, (player, dog) => {
-      dog.catch()
+      game.enemies.catch(dog.row)
     })
 
     if (game.player.lasso.shooting) {

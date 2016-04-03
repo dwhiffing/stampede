@@ -31,7 +31,9 @@ export default class Dog {
     this.speed = -1
   }
   pickup() {
-    this.sprite.kill()
-    this.sprite.x = 60
+    if (this.game.player.lasso.shooting) {
+      this.sprite.kill()
+      this.sprite.x = 60
+    }
   }
 }
