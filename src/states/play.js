@@ -7,7 +7,7 @@ import scaledDraw from '../scaledDraw'
 export default {
   create(game) {
     this.game = game
-    game.stage.backgroundColor = '#41a744'
+    game.stage.backgroundColor = '#4a763f'
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
     game.scale.setResizeCallback(scaledDraw.resize, this)

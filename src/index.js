@@ -12,20 +12,26 @@ import MenuState from './states/menu'
   game.state.add('play', PlayState)
   game.state.start('boot')
 
-  var up = document.getElementById('up')
-  var down = document.getElementById('down')
-  var shoot = document.getElementById('shoot')
+  const up = document.getElementById('up')
+  const down = document.getElementById('down')
+  const shoot = document.getElementById('shoot')
 
-  let touchStart = (key) => {
-    game.inputManager.start(key)
+  const touchStart = (key) => () => game.inputManager.start(key)
+  const touchEnd = (key) => () => game.inputManager.end(key)
+  const attachUpDown = (el, key) => {
+    el.addEventListener('touchstart', touchStart(key))
+    el.addEventListener('touchend', touchEnd(key))
+    el.addEventListener('mousedown', touchStart(key))
+    el.addEventListener('mouseup', touchEnd(key))
   }
-  let touchEnd = (key) => {
-    game.inputManager.end(key)
-  }
-  up.addEventListener('touchstart', () => touchStart('up'))
-  up.addEventListener('touchend', () => touchEnd('up'))
-  down.addEventListener('touchstart', () => touchStart('down'))
-  down.addEventListener('touchend', () => touchEnd('down'))
-  shoot.addEventListener('touchstart', () => touchStart('shoot'))
-  shoot.addEventListener('touchend', () => touchEnd('shoot'))
+
+  document.addEventListener('mouseup', () => {
+    game.inputManager.end('up')
+    game.inputManager.end('down')
+    game.inputManager.end('shoot')
+  })
+
+  attachUpDown(up, 'up')
+  attachUpDown(down, 'down')
+  attachUpDown(shoot, 'shoot')
 })()

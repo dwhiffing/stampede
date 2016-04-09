@@ -1,27 +1,33 @@
 export default class Input {
   constructor(game) {
     this.game = game
-    this.down = {
+    this.isDown = {
       up: false,
       down: false,
       shoot: false,
     }
   }
   update() {
-    if (this._isDown('UP') || this._isDown('W') || this.down['up']) {
+    if (this._isDown('UP') || this._isDown('W') || this.isDown['up']) {
       this.game.player.move(true)
-    } else if (this._isDown('DOWN') || this._isDown('S') || this.down['down']) {
+    } else if (this._isDown('DOWN') || this._isDown('S') || this.isDown['down']) {
       this.game.player.move()
     }
-    if (this._isDown('SPACEBAR') || this._isDown('Z') || this.down['shoot']) {
+    if (this._isDown('SPACEBAR') || this._isDown('Z') || this.isDown['shoot']) {
       this.game.player.shoot()
     }
   }
   start(key) {
-    this.down[key] = true
+    if (key === 'down' && this.isDown.up) {
+      this.isDown.up = false
+    }
+    if (key === 'up' && this.isDown.down) {
+      this.isDown.down = false
+    }
+    this.isDown[key] = true
   }
   end(key) {
-    this.down[key] = false
+    this.isDown[key] = false
   }
   _isDown(key) {
     return this.game.input.keyboard.isDown(Phaser.Keyboard[key])
