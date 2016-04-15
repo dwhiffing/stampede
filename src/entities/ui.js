@@ -1,6 +1,6 @@
 export default class UserInterface {
   constructor(game) {
-    this.speed = 1
+    this.speed = 0.8
     this.lives = 5
     this.score = 0
     this.targetScore = 0
