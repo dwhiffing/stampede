@@ -8,18 +8,21 @@ export default class UserInterface {
 
     this.topgate = game.add.tileSprite(0, 8, 64, 4, 'gate')
     this.bottomgate = game.add.tileSprite(0, 60, 64, 4, 'gate')
+    this.road = game.add.tileSprite(0, 10, 64, 50, 'road')
     this.lifeText = game.add.bitmapText(2, 1, 'font', this.lives.toString(), 5)
     this.scoreText = game.add.bitmapText(25, 1, 'font', Math.floor(this.score).toString(), 5)
 
     this.topgate.sendToBack()
+    this.road.sendToBack()
 
     this.gameover = () => {
-      game.state.start('menu', true, false)
+      game.state.start('menu', true, false, {score: Math.round(this.score)})
     }
   }
   update() {
     this.bottomgate.tilePosition.x -= 0.5 * this.speed
     this.topgate.tilePosition.x -= 0.5 * this.speed
+    this.road.tilePosition.x -= 0.5 * this.speed
 
     if (this.score < this.targetScore) {
       this.score += 0.3

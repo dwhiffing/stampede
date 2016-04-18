@@ -11,6 +11,7 @@
       canvas {
         height: 90vw;
         width: 90vw;
+        border-radius: 7%;
         max-width: 100%;
         max-height: 100%;
       }
@@ -37,36 +38,21 @@
         width: 33%;
         left: 0px;
         top: 0px;
-        /*opacity: 0;*/
       }
-      #shoot {
+      #shoot, #reset, #button {
         position: absolute;
         right: 0;
         width: 100px;
-        /*opacity: 0;*/
       }
-      #up i, #down i, #shoot i {
-        font-size: 40pt;
-      }
-      #up, #down, #shoot {
+      #up, #down, #shoot, #reset, #button {
         box-sizing: border-box;
-        background-color: #999;
-        border: 3px ridge #ADADAD;
-        text-align: center;
-        color: #565656;
+        cursor: pointer;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        cursor: pointer;
-        transition: 130ms;
-      }
-      #up:active, #down:active {
-        background-color: #8E8E8E;
-        color: #464646;
-        border-width: 4px;
       }
     </style>
   </head>
@@ -76,10 +62,12 @@
       <div id="app"></div>
       <div id="controls">
         <div id="dpad">
-          <div id="up"><i class="material-icons">&#xE5CE;</i></div>
-          <div id="down"><i class="material-icons">&#xE5CF;</i></div>
+          <div id="up"></div>
+          <div id="down"></div>
         </div>
-        <div id="shoot"><i class="material-icons">face</i></div>
+        <div id="shoot"></div>
+        <div id="button"></div>
+        <div id="reset"></div>
       </div>
     </div>
   </body>

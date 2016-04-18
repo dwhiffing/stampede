@@ -16,6 +16,9 @@ export default class Input {
     if (this._isDown('SPACEBAR') || this._isDown('Z') || this.isDown['shoot']) {
       this.game.player.shoot()
     }
+    if (this._isDown('R') || this.isDown['reset']) {
+      this.game.state.start('play', true, false)
+    }
   }
   start(key) {
     if (key === 'down' && this.isDown.up) {

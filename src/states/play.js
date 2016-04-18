@@ -14,7 +14,7 @@ export default {
     scaledDraw.init.call(this)
 
     game.enemies = new EnemyManager(game)
-    game.player = new Player(game, 2, 14)
+    game.player = new Player(game, 2, 30)
     game.inputManager = new InputManager(game)
     game.ui = new UserInterface(game)
   },
