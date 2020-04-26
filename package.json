@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --content-base build"
+    "start": "webpack-dev-server --content-base build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://github.com/dwhiffing/stampede",
   "devDependencies": {
     "babel-core": "^6.7.4",
     "babel-loader": "^6.2.4",
@@ -16,5 +18,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "author": "Daniel Whiffing",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "gh-pages": "^2.2.0"
+  }
 }
